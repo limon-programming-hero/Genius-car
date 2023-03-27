@@ -18,7 +18,8 @@ const LogIn = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Password</span>
+                                <span className="label-text">Password </span>
+                                <span>'https://github.com/limon-programming-hero/Genius-car.git'</span>
                             </label>
                             <input type="text" placeholder="password" className="input input-bordered" />
                             <label className="label">
