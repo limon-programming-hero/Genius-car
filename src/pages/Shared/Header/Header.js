@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from './../../../assets/logo.svg'
+// import { AuthContext } from './../../../Auth/AuthProvider';
 
 const Header = () => {
     return (
@@ -14,15 +15,17 @@ const Header = () => {
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                             <li><Link className='font-semibold' to='/'>Home</Link></li>
                             <li><Link className='font-semibold' to='/login'>Login</Link></li>
+                            <li><Link className='font-semibold' to='/signup'>Sign Up</Link></li>
                             <a href='/' className="btn btn-outline btn-warning">Appointment</a>
                         </ul>
                     </div>
                     <Link to='/' > <img className='w-3/4' src={logo} alt="" /></Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
+                    <ul className="menu menu-horizontal align-baseline px-1">
                         <li><Link className='font-semibold mx-1' to='/'>Home</Link></li>
-                        <li><Link className='font-semibold' to='/login'>Login</Link></li>
+                        <li><Link className='font-semibold mx-1' to='/login'>Login</Link></li>
+                        <li><Link className='font-semibold mx-1' to='/signup'>Sign Up</Link></li>
                     </ul>
                 </div>
                 <div className="navbar-end hidden lg:flex">
