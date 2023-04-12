@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Auth/AuthProvider';
 import logo from './../../../assets/logo.svg'
 // import { AuthContext } from './../../../Auth/AuthProvider';
 
 const Header = () => {
+    const { user, logOut } = useContext(AuthContext);
+    const HandlerSignOut = () => {
+        logOut()
+            .then(result => {
+                localStorage.deleteItem('genius-car');
+            })
+            .catch((error) => {
+                // An error happened.
+            });
+    }
     return (
         <div className='mx-4 lg:mx-36 my-4'>
             <div className="navbar bg-base-100">
@@ -14,8 +25,7 @@ const Header = () => {
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                             <li><Link className='font-semibold' to='/'>Home</Link></li>
-                            <li><Link className='font-semibold' to='/login'>Login</Link></li>
-                            <li><Link className='font-semibold' to='/signup'>Sign Up</Link></li>
+                            {user?.email ? <li><button onClick={HandlerSignOut} className='font-semibold mx-1 btn-ghost'>Sign Out</button></li> : <li><Link className='font-semibold' to='/login'>Login</Link></li>}
                             <a href='/' className="btn btn-outline btn-warning">Appointment</a>
                         </ul>
                     </div>
@@ -24,8 +34,9 @@ const Header = () => {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal align-baseline px-1">
                         <li><Link className='font-semibold mx-1' to='/'>Home</Link></li>
-                        <li><Link className='font-semibold mx-1' to='/login'>Login</Link></li>
-                        <li><Link className='font-semibold mx-1' to='/signup'>Sign Up</Link></li>
+                        <li><Link className='font-semibold mx-1' to='/orders'>Orders</Link></li>
+                        {user?.email ? <li><button onClick={HandlerSignOut} className='font-semibold mx-1 btn-ghost'>Sign Out</button></li> : <li><Link className='font-semibold' to='/login'>Login</Link></li>}
+                        <p>{user?.email}</p>
                     </ul>
                 </div>
                 <div className="navbar-end hidden lg:flex">

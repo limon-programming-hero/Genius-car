@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../Auth/AuthProvider';
 import loginImg from './../../assets/images/login/login.svg'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
-    const { logIn } = useContext(AuthContext);
+    const { logIn, user } = useContext(AuthContext);
+    let navigate = useNavigate();
+    let location = useLocation();
+    const from = location.state?.from?.pathName || '/'
     const HandlerLogIn = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -15,7 +18,18 @@ const LogIn = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: { 'content-type': 'application/json' },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json(user))
+                    .then(data => {
+                        console.log(data);
+                        localStorage.setItem('genius-car', data.token);
+                    });
                 form.reset();
+                navigate(from, { replace: true })
             })
             .catch(err => {
                 const errMssg = err.message;
@@ -50,7 +64,7 @@ const LogIn = () => {
                             </div>
                             <div className="form-control mt-6">
                                 <button className="btn m-2 btn-error"><input type="submit" value='Login' /></button>
-                                <p className='text-center'>New to Genius Car? <span className='text-orange-600 font-semibold'><Link to= '/signup'>Sign Up</Link></span></p>
+                                <p className='text-center'>New to Genius Car? <span className='text-orange-600 font-semibold'><Link to='/signup'>Sign Up</Link></span></p>
                             </div>
                         </form>
                     </div>

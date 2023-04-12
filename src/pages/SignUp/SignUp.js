@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../Auth/AuthProvider';
 import loginImg from './../../assets/images/login/login.svg'
 
 const SignUp = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathName || '/';
+    
     const { createUser } = useContext(AuthContext);
     const HandlerSignUp = (event) => {
         event.preventDefault();
@@ -17,6 +21,7 @@ const SignUp = () => {
                 const user = result.user
                 console.log(user);
                 form.reset();
+                navigate(from, { replace: true })
             })
             .catch(err => {
                 const errorMessage = err.message;
@@ -53,7 +58,7 @@ const SignUp = () => {
                             </div>
                             <div className="form-control mt-6">
                                 <button className="btn m-2 btn-error"><input type="submit" value='Sign Up' /></button>
-                                <p className='text-center'>Already has an account? <span className='text-orange-600 font-semibold'><Link to= '/login'>LogIn</Link></span></p>
+                                <p className='text-center'>Already has an account? <span className='text-orange-600 font-semibold'><Link to='/login'>LogIn</Link></span></p>
                             </div>
                         </form>
                     </div>
