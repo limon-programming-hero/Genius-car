@@ -29,7 +29,12 @@ const router = createBrowserRouter([
                 path: '/checkout/:id',
                 element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
                 loader: ({ params }) => {
-                    return fetch(`http://localhost:5000/services/${params.id}`)
+                    return fetch(`http://localhost:5000/services/${params.id}`, {
+                        headers: {
+                            'content-type': 'application/json',
+                            authorization: `Bearer ${localStorage.getItem('genius-car')}`
+                        }
+                    })
                 }
             },
             {

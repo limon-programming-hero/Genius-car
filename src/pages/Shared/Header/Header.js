@@ -9,7 +9,7 @@ const Header = () => {
     const HandlerSignOut = () => {
         logOut()
             .then(result => {
-                localStorage.deleteItem('genius-car');
+                localStorage.removeItem('genius-car');
             })
             .catch((error) => {
                 // An error happened.

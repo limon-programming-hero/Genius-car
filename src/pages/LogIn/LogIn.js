@@ -4,10 +4,12 @@ import loginImg from './../../assets/images/login/login.svg'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
-    const { logIn, user } = useContext(AuthContext);
+    const { logIn } = useContext(AuthContext);
     let navigate = useNavigate();
     let location = useLocation();
-    const from = location.state?.from?.pathName || '/'
+    // console.log(location)
+    const from = location?.state?.from?.pathname || '/';
+    // console.log(from)
     const HandlerLogIn = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -18,18 +20,19 @@ const LogIn = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                fetch('http://localhost:5000/jwt', {
-                    method: 'POST',
-                    headers: { 'content-type': 'application/json' },
-                    body: JSON.stringify(user)
-                })
-                    .then(res => res.json(user))
-                    .then(data => {
-                        console.log(data);
-                        localStorage.setItem('genius-car', data.token);
+                async function fetcher() {
+                    const fetching = await fetch('http://localhost:5000/jwt', {
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify(user)
                     });
-                form.reset();
-                navigate(from, { replace: true })
+                    const res = await fetching.json(user);
+                    localStorage.setItem('genius-car', res.token);
+                    form.reset();
+                    console.log('res', res)
+                    navigate(from, { replace: true })
+                }
+                fetcher();
             })
             .catch(err => {
                 const errMssg = err.message;

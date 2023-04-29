@@ -27,6 +27,7 @@ const Checkout = () => {
             message,
             ServiceId: _id
         }
+        console.log(order);
         // setOrder(newOrder);
         fetch('http://localhost:5000/orders', {
             method: 'POST',
